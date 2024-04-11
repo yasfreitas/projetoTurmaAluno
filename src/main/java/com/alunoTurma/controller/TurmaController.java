@@ -42,6 +42,21 @@ public class TurmaController {
 			return ResponseEntity.notFound().build();  
 		}  
 	}  
+	@GetMapping("/nome/{nome}")
+	public ResponseEntity<List<Turma>> buscarTurmaPorNome(@PathVariable String nome){
+		List<Turma> turmas = turmaService.buscarTurmaPorNome(nome);
+		return ResponseEntity.ok(turmas);
+	}
+	@GetMapping("/descricao/{descricao}")
+	public ResponseEntity<List<Turma>> buscarTurmaPorDescricao(@PathVariable String descricao){
+		List<Turma> turmas = turmaService.buscarTurmaPorDescricao(descricao);
+		return ResponseEntity.ok(turmas);
+	}
+	@GetMapping("/nome/{nome}/descricao/{descricao}")
+	public ResponseEntity<List<Turma>> buscarTurmaPorNomeEDescricao(@PathVariable String nome, @PathVariable String descricao){
+		List<Turma> turmas = turmaService.buscarTurmaPorNomeEDescricao(nome, descricao);
+		return ResponseEntity.ok(turmas);
+	}
 	
 	@GetMapping  
 	public ResponseEntity<List<Turma>> buscaTodosTurmasControl(){  

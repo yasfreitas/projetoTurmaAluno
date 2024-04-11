@@ -43,7 +43,7 @@ public class Aluno {
 	@Column(name = "telefone", nullable = false, length = 255)
 	private String telefone;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_turma", nullable = false)
 	private Turma turma;
 

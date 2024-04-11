@@ -25,6 +25,16 @@ public class TurmaService {
 		Optional <Turma> Turma = turmaRepository.findById(id);
 		return Turma.orElse(null);
 	}
+	public List<Turma> buscarTurmaPorNome(String nome){
+		return turmaRepository.findByNome(nome);
+	}
+	public List<Turma> buscarTurmaPorDescricao(String descricao){
+		return turmaRepository.findByDescricao(descricao);
+	}
+	public List<Turma> buscarTurmaPorNomeEDescricao(String nome, String descricao){
+		return turmaRepository.findByNomeAndDescricao(nome, descricao);
+	}
+	
 	public Turma salvaTurma(Turma turma) {
 		return turmaRepository.save(turma);
 	}
@@ -44,4 +54,5 @@ public class TurmaService {
 		}
 		return false;
 	}
+	
 }

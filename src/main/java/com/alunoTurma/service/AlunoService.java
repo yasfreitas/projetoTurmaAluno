@@ -27,6 +27,18 @@ public class AlunoService {
 		Optional <Aluno> Aluno = alunoRepository.findById(id); 
 		return Aluno.orElse(null); 
 	} 
+	public List<Aluno> buscarAlunoPorCidade(String cidade){
+		return alunoRepository.findByCidade(cidade);
+	}
+	public List<Aluno> buscarAlunoPorRenda(double renda){
+		return alunoRepository.findByRenda(renda);
+	}
+	public List<Aluno> buscarAlunoPorRa(String ra){
+		return alunoRepository.findByRa(ra);
+	}
+	public List<Aluno> buscarAlunoPorCidadeERenda(String cidade, double renda){
+		return alunoRepository.findByCidadeAndRenda(cidade, renda);
+	}
 	
 	public Aluno salvaAluno(Aluno aluno) { 
 		return alunoRepository.save(aluno); 

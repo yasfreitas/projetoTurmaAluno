@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 
 @RestController 
 @CrossOrigin(origins= "*") 
-@RequestMapping("/turma") 
+@RequestMapping("/aluno") 
 public class AlunoController {
 
 	private final AlunoService alunoService; 
@@ -41,9 +41,29 @@ public class AlunoController {
 		else {  
 			return ResponseEntity.notFound().build();  
 		}  
-	}  
+	} 
+	@GetMapping("/cidade/{cidade}")
+	public ResponseEntity<List<Aluno>> buscarAlunoPorCidade(@PathVariable String cidade){
+		List<Aluno> alunos = alunoService.buscarAlunoPorCidade(cidade);
+		return ResponseEntity.ok(alunos);
+	}
+	@GetMapping("/renda/{renda}")
+	public ResponseEntity<List<Aluno>> buscarAlunoPorRenda(@PathVariable double renda){
+		List<Aluno> alunos = alunoService.buscarAlunoPorRenda(renda);
+		return ResponseEntity.ok(alunos);
+	}
+	@GetMapping("/ra/{ra}")
+	public ResponseEntity<List<Aluno>> buscarAlunoPorRa(@PathVariable String ra){
+		List<Aluno> alunos = alunoService.buscarAlunoPorRa(ra);
+		return ResponseEntity.ok(alunos);
+	}
+	@GetMapping("/cidade/{cidade}/renda/{renda}")
+	public ResponseEntity<List<Aluno>> buscarAlunoPorCidadeERenda(@PathVariable String cidade, @PathVariable double renda ){
+		List<Aluno> alunos = alunoService.buscarAlunoPorCidadeERenda(cidade, renda);
+		return ResponseEntity.ok(alunos);
+	}
 	
-	@GetMapping  
+	@GetMapping("/")
 	public ResponseEntity<List<Aluno>> buscaTodosAlunosControl(){  
 		List<Aluno>Aluno = alunoService.buscaTodosAlunos();  
 		return ResponseEntity.ok(Aluno);  
