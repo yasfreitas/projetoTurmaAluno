@@ -10,5 +10,7 @@ public interface TurmaRepository extends JpaRepository<Turma, Long>{
 	List<Turma> findByNome(String nome);
 	List<Turma> findByDescricao(String descricao);
 	List<Turma> findByNomeAndDescricao(String nome, String descricao);
+	
+	
 
 }

@@ -25,77 +25,82 @@ import jakarta.validation.Valid;
 @RequestMapping("/aluno") 
 public class AlunoController {
 
-	private final AlunoService alunoService; 
-	
-	@Autowired  
-	public AlunoController(AlunoService alunoService) {  
-		this.alunoService = alunoService;  
-	}  
-	
-	@GetMapping("/{id}")  
-	public ResponseEntity<Aluno> buscaAlunoControlId(@PathVariable Long id){  
+	private final AlunoService alunoService;   
+	@Autowired   
+	public AlunoController(AlunoService alunoService) {   
+		this.alunoService = alunoService;   
+	}   
+	@GetMapping("/{id}")   
+	public ResponseEntity<Aluno> buscaAlunosControlId(@PathVariable Long id){   
 		Aluno aluno = alunoService.buscaAlunoId(id);  
-		if(aluno != null) {  
-			return ResponseEntity.ok(aluno);  
-		}  
-		else {  
-			return ResponseEntity.notFound().build();  
-		}  
-	} 
+		if (aluno != null) {   
+			return ResponseEntity.ok(aluno);   
+		}   
+		else {   
+			return ResponseEntity.notFound().build();   
+		}   
+	}   
+	@GetMapping("/turma/{turmaid}")
+	public List<Aluno> findAlunoPorTurma(@PathVariable Long turmaId){
+		return alunoService.findByTurmaId(turmaId);
+	}
+	@GetMapping("/")   
+	public ResponseEntity<List<Aluno>> buscaTodasAlunosControl(){   
+		List<Aluno> aluno = alunoService.buscaTodosAlunos();   
+		return ResponseEntity.ok(aluno);   
+	}   
 	@GetMapping("/cidade/{cidade}")
-	public ResponseEntity<List<Aluno>> buscarAlunoPorCidade(@PathVariable String cidade){
-		List<Aluno> alunos = alunoService.buscarAlunoPorCidade(cidade);
+	public ResponseEntity<List<Aluno>> buscarAlunosPorCidade(@PathVariable String cidade){
+		List<Aluno> alunos = alunoService.buscarAlunosPorCidade(cidade);
 		return ResponseEntity.ok(alunos);
 	}
 	@GetMapping("/renda/{renda}")
-	public ResponseEntity<List<Aluno>> buscarAlunoPorRenda(@PathVariable double renda){
-		List<Aluno> alunos = alunoService.buscarAlunoPorRenda(renda);
+	public ResponseEntity<List<Aluno>> buscarAlunosPorRenda(@PathVariable double renda){
+		List<Aluno> alunos = alunoService.buscarAlunosPorRenda(renda);
 		return ResponseEntity.ok(alunos);
 	}
 	@GetMapping("/ra/{ra}")
-	public ResponseEntity<List<Aluno>> buscarAlunoPorRa(@PathVariable String ra){
-		List<Aluno> alunos = alunoService.buscarAlunoPorRa(ra);
+	public ResponseEntity<List<Aluno>> buscarAlunosPorRa(@PathVariable String ra){
+		List<Aluno> alunos = alunoService.buscarAlunosPorRa(ra);
 		return ResponseEntity.ok(alunos);
 	}
 	@GetMapping("/cidade/{cidade}/renda/{renda}")
-	public ResponseEntity<List<Aluno>> buscarAlunoPorCidadeERenda(@PathVariable String cidade, @PathVariable double renda ){
-		List<Aluno> alunos = alunoService.buscarAlunoPorCidadeERenda(cidade, renda);
+	public ResponseEntity<List<Aluno>> buscarAlunosPorCidadeRenda(@PathVariable String cidade, @PathVariable double renda){
+		List<Aluno> alunos = alunoService.buscarAlunosPorCidadeRenda(cidade, renda);
 		return ResponseEntity.ok(alunos);
 	}
-	
-	@GetMapping("/")
-	public ResponseEntity<List<Aluno>> buscaTodosAlunosControl(){  
-		List<Aluno>Aluno = alunoService.buscaTodosAlunos();  
-		return ResponseEntity.ok(Aluno);  
-	}  
-	
-	@PostMapping  
-	public ResponseEntity<Aluno> salvaAlunosControl(@RequestBody @Valid Aluno aluno){  
-		Aluno salvaAluno = alunoService.salvaAluno(aluno);  
-		return ResponseEntity.status(HttpStatus.CREATED).body(salvaAluno);  
-	}  
-	
-	@PutMapping("/{id}")  
-	public ResponseEntity<Aluno> alteraAlunoControl(@PathVariable Long id, @RequestBody @Valid Aluno aluno){ 
-		Aluno alteraAluno = alunoService.alterarAluno(id, aluno);  
-		if(alteraAluno != null) {  
-			return ResponseEntity.ok(aluno);  
-		}  
-		else {  
-			return ResponseEntity.notFound().build();  
-	}  
-
-	}  
-	
-	@DeleteMapping("/{id}")  
-	public ResponseEntity<Aluno> apagaAlunoControl(@PathVariable Long id){  
-		boolean apagar = alunoService.apagarAluno(id);  
-		if (apagar) {  
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();  
-		}  
-		else {  
-			return ResponseEntity.notFound().build(); 
-		}  
-	} 
+	@GetMapping("/nome/{nome}")
+	public List<Aluno> findAlunosPorNome(@PathVariable String nome){
+		return alunoService.findByNome(nome);
+	}
+	@GetMapping("/nome-completo/{nomeCompleto}")
+	public List<Aluno> findAlunosPorNomeCompletoLike(@PathVariable String nomeCompleto){
+		return alunoService.findByNomeCompletoLike(nomeCompleto);
+	}
+	@PostMapping("/")   
+	public ResponseEntity<Aluno> salvaAlunosControl(@RequestBody Aluno aluno){   
+		Aluno salvaAluno = alunoService.salvaAluno(aluno);   
+		return ResponseEntity.status(HttpStatus.CREATED).body(salvaAluno);   
+	}   
+	@PutMapping("/{id}")   
+	public ResponseEntity<Aluno> alteraAlunosControl(@PathVariable Long id, @RequestBody Aluno aluno){   
+		Aluno alteraAluno = alunoService.alterarAluno(id, aluno);   
+		if (alteraAluno != null) {   
+			return ResponseEntity.ok(aluno);   
+		}   
+		else {   
+			return ResponseEntity.notFound().build();   
+		}   
+	}   
+	@DeleteMapping("/{id}")   
+	public ResponseEntity<String> apagaAlunoControl(@PathVariable Long id){   
+		boolean apagar = alunoService.apagarAluno(id);   
+		if(apagar) {   
+			return ResponseEntity.ok().body("O aluno foi excluido!");   
+		}   
+		else {   
+			return ResponseEntity.notFound().build();   
+		}   
+	}   
 
 }

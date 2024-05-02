@@ -12,53 +12,56 @@ import com.alunoTurma.repository.AlunoRepository;
 @Service
 public class AlunoService {
 	
-	private final AlunoRepository alunoRepository; 
-	 
-	@Autowired 
-	public AlunoService(AlunoRepository alunoRepository) { 
-		this.alunoRepository = alunoRepository; 
-	} 
-	
-	public List<Aluno> buscaTodosAlunos(){ 
-		return alunoRepository.findAll(); 
-	} 
-	
-	public Aluno buscaAlunoId(Long id) { 
-		Optional <Aluno> Aluno = alunoRepository.findById(id); 
-		return Aluno.orElse(null); 
-	} 
-	public List<Aluno> buscarAlunoPorCidade(String cidade){
+	private final AlunoRepository alunoRepository;     
+	@Autowired     
+	public AlunoService(AlunoRepository alunoRepository) {     
+		this.alunoRepository = alunoRepository;     
+	}    
+	public List<Aluno> buscaTodosAlunos() {     
+		return alunoRepository.findAll();    
+	}    
+	public Aluno buscaAlunoId(Long id) {     
+		Optional <Aluno> aluno = alunoRepository.findById(id);    
+		return aluno.orElse(null);    
+	}    
+	public List<Aluno> buscarAlunosPorCidade(String cidade){
 		return alunoRepository.findByCidade(cidade);
 	}
-	public List<Aluno> buscarAlunoPorRenda(double renda){
+	public List<Aluno> buscarAlunosPorRenda(double renda){
 		return alunoRepository.findByRenda(renda);
 	}
-	public List<Aluno> buscarAlunoPorRa(String ra){
-		return alunoRepository.findByRa(ra);
+	public List<Aluno> buscarAlunosPorRa(String ra){
+		return alunoRepository.findByra(ra);
 	}
-	public List<Aluno> buscarAlunoPorCidadeERenda(String cidade, double renda){
+	public List<Aluno> buscarAlunosPorCidadeRenda(String cidade, double renda){
 		return alunoRepository.findByCidadeAndRenda(cidade, renda);
 	}
-	
-	public Aluno salvaAluno(Aluno aluno) { 
-		return alunoRepository.save(aluno); 
-	} 
-	
-	public Aluno alterarAluno( Long id, Aluno alterarAluno) { 
-		Optional<Aluno> existeAluno = alunoRepository.findById(id); 
-		if(existeAluno.isPresent()) { 
-			alterarAluno.setId(id); 
-			return alunoRepository.save(alterarAluno); 
-		} 
-		return null; 
-	} 
-	
-	public boolean apagarAluno(Long id) { 
-		Optional<Aluno> existeAluno = alunoRepository.findById(id); 
-		if(existeAluno.isPresent()) { 
-			alunoRepository.deleteById(id); 
-			return true; 
-		} 
-		return false; 
-	} 
+	public List<Aluno> findByNome(String nome){
+		return alunoRepository.findByNome(nome);
+	}
+	public List<Aluno> findByNomeCompletoLike(String nomeCompleto){
+		return alunoRepository.findByNomeLike(nomeCompleto);
+	}
+	public Aluno salvaAluno(Aluno aluno) {     
+		return alunoRepository.save(aluno);     
+	}
+	public List<Aluno> findByTurmaId(Long turmaId){
+		return alunoRepository.findByTurmaId(turmaId);
+	}
+	public Aluno alterarAluno(Long id, Aluno alterarUser) {     
+		Optional <Aluno> existeAluno = alunoRepository.findById(id);     
+		if (existeAluno.isPresent()) {     
+			alterarUser.setId(id);     
+			return alunoRepository.save(alterarUser);     
+		}    
+		return null;     
+	}    
+	public boolean apagarAluno(Long id) {    
+		Optional <Aluno> existeAluno = alunoRepository.findById(id);     
+		if (existeAluno.isPresent()) {     
+			alunoRepository.deleteById(id);     
+			return true;     
+		}    
+		return false;     
+	}   
 }
